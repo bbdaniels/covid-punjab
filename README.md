@@ -16,6 +16,8 @@
 
 `outputs` : Analytical products created from `data`.
 
+`img` : Images needed for displays, such as the diagram below.
+
 ## What is on Box
 
 `clean` : Data that is cleaned from `raw` but has no additional information added.
