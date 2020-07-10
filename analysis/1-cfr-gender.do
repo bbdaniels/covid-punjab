@@ -1,7 +1,7 @@
 // Figure 2: by gender
 
   // Get death counts by day
-  use death_date gender using "${datadir}/clean/icmr.dta" ///
+  use death_date gender using "${box}/data/icmr.dta" ///
     if death_date != . & gender == "M" , clear
 
     gen deaths = 1
@@ -13,10 +13,12 @@
 
   // Load in all positive cases by day
   use date_pos sample_result gender ///
-    using "${datadir}/clean/icmr.dta" ///
+    using "${box}/data/icmr.dta" ///
     if sample_result == 3 & gender == "M", clear
 
-    gen date = date(date_pos,"MDY")
+    replace date_pos = subinstr(date_pos,"/20","/2020",.)
+    replace date_pos = subinstr(date_pos,"/202020","/2020",.)
+    gen date = date(date_pos,"DMY")
     keep date
     format date %tdNN/DD
     gen cases = 1
@@ -55,10 +57,12 @@
 
   // Load in all positive cases by day
   use date_pos sample_result gender ///
-    using "${datadir}/clean/icmr.dta" ///
+    using "${box}/data/icmr.dta" ///
     if sample_result == 3 & gender == "F", clear
 
-    gen date = date(date_pos,"MDY")
+    replace date_pos = subinstr(date_pos,"/20","/2020",.)
+    replace date_pos = subinstr(date_pos,"/202020","/2020",.)
+    gen date = date(date_pos,"DMY")
     keep date
     format date %tdNN/DD
     gen cases = 1
@@ -94,7 +98,8 @@
       if c_cases >= 100 & c_cases != . ///
     , ylab(, angle(0) axis(2)) yscale( alt axis(2)) ///
       ytit(, axis(2)) ytit(, axis(1)) yscale( axis(2)) yscale(alt) ///
+      xlab(,format(%tdMon_DD)) ///
       ylab(.05 "5%" .1 "10%" .15 "15%") ytit("") xtit("") ///
       legend(on order(1 "Cases to date" 3 "CCFR (Men)" 2 "Deaths to date" 4 "CCFR (Women)") c(2) ring(1) pos(12))
 
-      graph export "${directory}/1-cfr/figure-gender.png", replace
+      graph export "${git}/outputs/1-cfr/figure-gender.png", replace

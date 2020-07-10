@@ -3,7 +3,7 @@
 // Figure 1: CCFR by day
 
   // Get death counts by day
-  use death_date using "${datadir}/clean/icmr.dta" ///
+  use death_date using "${box}/clean/icmr.dta" ///
     if death_date != . , clear
     gen deaths = 1
     collapse (sum) deaths , by(death_date)
@@ -14,7 +14,7 @@
 
   // Load in all positive cases by day
   use date_pos sample_result ///
-    using "${datadir}/clean/icmr.dta" ///
+    using "${box}/clean/icmr.dta" ///
     if sample_result == 3 , clear
 
     replace date_pos = subinstr(date_pos,"/20","/2020",.)
@@ -55,6 +55,6 @@
     ylab(.05 "5%" .1 "10%" .15 "15%") ytit("") xtit("") ///
     legend(on order(1 "Cases to date" 3 "CCFR" 2 "Deaths to date" 4 "Lag CFR") c(2) ring(1) pos(12))
 
-    graph export "${directory}/1-cfr/figure.png", replace
+    graph export "${git}/outputs/1-cfr/figure.png", replace
 
 // End of dofile

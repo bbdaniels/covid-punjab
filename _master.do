@@ -2,8 +2,8 @@
 
 // Set global file path
 
-  global datadir "/Users/bbdaniels/Box/covid-punjab"
-  global directory "/Users/bbdaniels/github/covid-punjab"
+  global box "/Users/bbdaniels/Box/covid-punjab"
+  global git "/Users/bbdaniels/github/covid-punjab"
 
 // Set ado-path
 
@@ -23,8 +23,7 @@
 // Do cleaning and data construction
 
   global icmr_updated = 0
-  global icmr_name "ICMR_Punjab_new_appended_23Marchto28June_dedup_deid.xlsx"
-  run "${datadir}/makedata/cleaning.do"
-  run "${datadir}/makedata/construct.do"
+  run "${git}/makedata/cleaning.do"
+  run "${git}/makedata/construct.do"
 
 // End of dofile

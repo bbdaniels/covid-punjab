@@ -1,6 +1,6 @@
 // Data cleaning for Death Audit
 
-  import excel "${datadir}/raw/death_cases_line_DeID.xlsx" ///
+  import excel "${box}/raw/death_cases_line_DeID.xlsx" ///
      , first clear
 
    ren ICMRID id_icmr
@@ -17,16 +17,16 @@
 
   // Create dta version of initial data. Run only if xlsx updated.
   if ${icmr_updated} == 1 {
-    import excel "${datadir}/raw/${icmr_name}" ///
-      , first clear
+    import delimited "${git}/raw/icmr.csv" ///
+      ,  clear
 
-    save "${datadir}/raw/ICMR_original.dta" , replace
+    save "${box}/raw/icmr.dta" , replace
   }
 
   // Load dta version and apply variable naming and labelling
 
-    use "${datadir}/raw/ICMR_original.dta" , clear
-    iecodebook apply using "${datadir}/meta/ICMR_original NOCODE.xlsx"
+    use "${box}/raw/icmr.dta" , clear
+    iecodebook apply using "${git}/meta/icmr.xlsx"
 
   // Merge death data
 
@@ -98,8 +98,8 @@
   // Save
 
     qui compress
-    save "${datadir}/clean/icmr.dta" , replace
-    export delimited using "${datadir}/clean/icmr.csv" , replace nolabel
-    iecodebook export using "${datadir}/clean/icmr.xlsx" , replace
+    save "${box}/clean/icmr.dta" , replace
+    export delimited using "${box}/clean/icmr.csv" , replace nolabel
+    iecodebook export using "${box}/clean/icmr.xlsx" , replace
 
 // End of dofile

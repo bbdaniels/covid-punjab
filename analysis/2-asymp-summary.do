@@ -1,5 +1,6 @@
 // Asymptomatic vs symptomatic positivity
 
+/*
 // Category stuff
 use "${datadir}/data/icmr.dta" if touse_result == 1 , clear
 
@@ -7,9 +8,10 @@ betterbarci positive , by(recoded_patient_category) barlab pct xoverhang ///
   xlab(.02 "2%" .04 "4%" .06 "6%" .08 "8%" .1 "10%")
 
   graph export  "${directory}/misc/categories.png"  , replace
+*/
 
 // Grouping statistics
-use "${datadir}/data/icmr.dta" if touse_result == 1 , clear
+use "${box}/data/icmr.dta" if touse_result == 1 , clear
 
   gen touse = inlist(sample_result,2,3)
   keep if touse == 1
@@ -19,7 +21,7 @@ use "${datadir}/data/icmr.dta" if touse_result == 1 , clear
     legend(on c(1) ring(0) pos(1) order(1 "Symptomatic" 2 "Asymptomatic")) ///
     bar(2, fc(black)) bar(1, fc(red)) ytit("Number Tested")
 
-  graph export  "${directory}/2-asymptomatics/asymp-test.png"  , replace
+  graph export  "${git}/outputs/2-asymptomatics/asymp-test.png"  , replace
 
   graph bar positive if gender != "T" ///
   , over(asymptomatic) over(gender) over(agecat) ///
@@ -27,10 +29,10 @@ use "${datadir}/data/icmr.dta" if touse_result == 1 , clear
     bar(2, fc(black)) bar(1, fc(red)) ///
     ylab(0 "0%" .05 "5%" .1 "10%") ytit("Share Positive")
 
-  graph export  "${directory}/2-asymptomatics/asymp-pos.png"  , replace
+  graph export  "${git}/outputs/2-asymptomatics/asymp-pos.png"  , replace
 
 // Asymptomatic vs symptomatic positivity over time
-use "${datadir}/data/icmr.dta" if touse_result == 1 , clear
+use "${box}/data/icmr.dta" if touse_result == 1 , clear
 
   keep date positive asymptomatic age
   collapse (mean) positive age (count) n = positive, by(date asymptomatic)
@@ -61,10 +63,10 @@ use "${datadir}/data/icmr.dta" if touse_result == 1 , clear
     ylab(0 "0%" .05 "5%" .1 "10%" .15 "15%")
 
 
-  graph export  "${directory}/2-asymptomatics/asymp-pos-time.png"  , replace
+  graph export  "${git}/outputs/2-asymptomatics/asymp-pos-time.png"  , replace
 
 // Asymptomatic vs symptomatic CONDITIONAL ON positivity over time
-use "${datadir}/data/icmr.dta" if touse_result == 1 , clear
+use "${box}/data/icmr.dta" if touse_result == 1 , clear
 
   keep date positive symptomatic age
   collapse (mean) symptomatic age (count) n = symptomatic, by(date positive)
@@ -93,6 +95,6 @@ use "${datadir}/data/icmr.dta" if touse_result == 1 , clear
       `=date("1 Jun 2020","DMY")' ///
       ,format(%tdMonth)) xtit("") ylab(${pct})
 
-  graph export  "${directory}/2-asymptomatics/pos-asymp-time.png"  , replace
+  graph export  "${git}/outputs/2-asymptomatics/pos-asymp-time.png"  , replace
 
 // End of dofile

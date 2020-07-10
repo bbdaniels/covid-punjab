@@ -1,5 +1,5 @@
 
-use "${datadir}/clean/icmr.dta" , clear
+use "${box}/clean/icmr.dta" , clear
 
 // Age categorical
   egen agecat = cut(age) , at(0 10 20 30 40 50 60 70 80 90 150) icodes
@@ -35,7 +35,9 @@ use "${datadir}/clean/icmr.dta" , clear
     lab var symptomatic "Symptomatic"
 
 // Dates
-  gen date = date(date_sample,"MDY")
+  replace date_sample = subinstr(date_sample,"/20","/2020",.)
+  replace date_sample = subinstr(date_sample,"/202020","/2020",.)
+  gen date = date(date_sample,"DMY")
     lab var date "Sample Date"
     format date %tdNN/DD
 
@@ -45,7 +47,6 @@ use "${datadir}/clean/icmr.dta" , clear
 
 // Save
 
-save "${datadir}/data/icmr.dta" , replace
-/*
-export delimited using "${datadir}/data/icmr.csv" , replace nolabel
-iecodebook export using "${datadir}/data/icmr.xlsx" , replace
+save "${box}/data/icmr.dta" , replace
+export delimited using "${box}/data/icmr.csv" , replace nolabel
+iecodebook export using "${box}/data/icmr.xlsx" , replace

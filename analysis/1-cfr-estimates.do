@@ -10,7 +10,7 @@
 */
 
 // Table: CCFR by age
-use "${datadir}/data/icmr.dta" , clear
+use "${box}/data/icmr.dta" , clear
 table agecat if positive == 1 , c( mean death) format(%9.3f)
 ta agecat if positive == 1
   /*
