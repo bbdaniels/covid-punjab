@@ -23,3 +23,5 @@
 `data` : Constructed data products that may be used for analysis.
 
 In addition to other documentation and binary files.
+
+![](/img/workflow.png)
