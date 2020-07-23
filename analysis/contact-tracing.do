@@ -2,7 +2,7 @@
 
 global outputs "${git}/outputs/contact-tracing"
 
-// Figure. Contacts distribution logrank
+// Figure. Contacts distribution
 use "${box}/data/contact-tracing.dta" ///
   if contacts > 0 & origin == "Local" , clear
 
@@ -11,10 +11,16 @@ use "${box}/data/contact-tracing.dta" ///
     xtit("Number of Contacts") ytit("Share of Population")
 
   graph export "${outputs}/hist-contacts.png" , replace
-  -
 
 
+// Figure. PCI distribution nonzeros
+use "${box}/data/contact-tracing.dta" ///
+  if pci > 0 & origin == "Local" , clear
 
+  tw ///
+    (scatter pci contacts , mc(black)) ///
+    (lowess pci contacts , lw(thick) lc(red)) ///
+  , ylab(${pct}) xtit("Number of Contacts") ytit("Per-Contact Infection Rate")
 
 // Figure. Contacts distribution logrank
 use "${box}/data/contact-tracing.dta" ///
