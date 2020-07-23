@@ -11,7 +11,9 @@
 
 // Install packages
 
-  ssc install iefieldkit
+  net from "https://github.com/worldbank/iefieldkit/raw/feature/iecodebook-export-verify/src/"
+    net install iefieldkit , replace
+  // ssc install iefieldkit
 
 // Globals
 
