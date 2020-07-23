@@ -7,6 +7,7 @@
 ![](pci-contacts.png)
 
 ## Figure 2. Distribution of Infected vs Contacts (Ex. Zeros)
+**Note:** Exact points randomly jittered to show density.
 ![](infected-contacts.png)
 
 ## Appendix Figure 2. Log-Rank Plot of Contacts
