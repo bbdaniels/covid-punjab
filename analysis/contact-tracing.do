@@ -20,7 +20,11 @@ use "${box}/data/contact-tracing.dta" ///
   tw ///
     (scatter pci contacts , mc(black)) ///
     (lowess pci contacts , lw(thick) lc(red)) ///
-  , ylab(${pct}) xtit("Number of Contacts") ytit("Per-Contact Infection Rate")
+    if contacts > 0 ///
+  , ylab(${pct}) ytit("Per-Contact Infection Rate") ///
+    xscale(log) xlab(1 5 25 125 625) xtit("Number of Contacts (Log Scale)") 
+
+  graph export "${outputs}/pci-contacts.png" , replace
 
 // Figure. Contacts distribution logrank
 use "${box}/data/contact-tracing.dta" ///
