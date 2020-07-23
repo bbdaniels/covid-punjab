@@ -21,7 +21,9 @@
 
   global hist_opts ylab(, angle(0) axis(2)) yscale(noline alt axis(2)) ///
     ytit(, axis(2)) ytit(, axis(1)) yscale(off axis(2)) yscale(alt)
-
+  global xhist_opts xlab(, angle(0) axis(2)) xscale(noline alt axis(2)) ///
+    xtit(, axis(2)) xtit(, axis(1)) xscale(off axis(2)) xscale(alt)
+-
 // Do cleaning and data construction
 
   global icmr_updated = 0

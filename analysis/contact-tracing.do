@@ -18,10 +18,11 @@ use "${box}/data/contact-tracing.dta" ///
   if pci > 0 & origin == "Local" , clear
 
   tw ///
+    (histogram pci , hor xaxis(2) fc(gs14) w(.1) lc(none) gap(10)) ///
     (scatter pci contacts , mc(black)) ///
     (lowess pci contacts , lw(thick) lc(red)) ///
     if contacts > 0 ///
-  , ylab(${pct}) ytit("Per-Contact Infection Rate") ///
+  , ${xhist_opts} ylab(${pct}) ytit("Per-Contact Infection Rate") ///
     xscale(log) xlab(1 5 25 125 625) xtit("Number of Contacts (Log Scale)")
 
   graph export "${outputs}/pci-contacts.png" , replace
@@ -32,7 +33,7 @@ use "${box}/data/contact-tracing.dta" ///
 
   egen rank = rank(contacts)
   bys rank : gen j = _N
-  bys rank : keep in 1
+  bys rank : keep if _n == 1
   tw /// (histogram rank , yaxis(2) fc(gs14) lc(none) width(10) gap(10)) ///
     (scatter contacts rank [pweight = j] , mfc(gray%50) mlc(black)) ///
     (function (1.008^(x+80)) , range(0 400) color(red)) ///
@@ -40,18 +41,5 @@ use "${box}/data/contact-tracing.dta" ///
     xtit("Contact Rank of Traced Non-Nanded Cases") ytit("Number of Contacts (Log Scale)")
 
     graph export "${outputs}/logrank.png" , replace
-
-  -
-
-// Figure. PCI and contacts
-use "${box}/data/contact-tracing.dta" , clear
-
-  lowess pci contacts ///
-    if origin != "Nanded" & contacts > 0
-
-
-
-
-
 
 // End of dofile
