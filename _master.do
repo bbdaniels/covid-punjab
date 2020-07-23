@@ -25,7 +25,9 @@
 // Do cleaning and data construction
 
   global icmr_updated = 0
-  run "${git}/makedata/cleaning.do"
-  run "${git}/makedata/construct.do"
+  run "${git}/makedata/icmr-cleaning.do"
+  run "${git}/makedata/contact-tracing-cleaning.do"
+  run "${git}/makedata/icmr-construct.do"
+  run "${git}/makedata/contact-tracing-construct.do"
 
 // End of dofile
