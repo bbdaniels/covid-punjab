@@ -27,6 +27,20 @@ use "${box}/data/contact-tracing.dta" ///
 
   graph export "${outputs}/pci-contacts.png" , replace
 
+// Figure. Infections distribution nonzeros
+use "${box}/data/contact-tracing.dta" ///
+  if contacts > 0 & origin == "Local" , clear
+
+  tw ///
+    (histogram infected , hor xaxis(2) fc(gs14) w(1) lc(none) gap(10)) ///
+    (scatter infected contacts , msize(*2) mlc(none) mfc(black%50) jitter(5) ) ///
+    (lowess infected contacts , lw(thick) lc(red)) ///
+    if contacts > 0 ///
+  , ${xhist_opts} ytit("Total Infected") ///
+    xscale(log) xlab(1 5 25 125 625) xtit("Number of Contacts (Log Scale)")
+
+  graph export "${outputs}/pci-contacts.png" , replace
+
 // Figure. Contacts distribution logrank
 use "${box}/data/contact-tracing.dta" ///
   if contacts > 0 & origin == "Local" , clear
