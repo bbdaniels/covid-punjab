@@ -7,7 +7,6 @@
   // Cleaning
 
     destring id_icmr , force replace // NOTE: several duplicates here
-    -
     keep if id_icmr != .
 
     drop if id_tracing == .
@@ -22,14 +21,13 @@
       encode type_clean , gen(type)
 
   // Cleanup
-
   order * , seq
     order id_* , first
     isid id_tracing , sort
       order id_tracing , first
   compress
 
-  iecodebook export using "${box}/clean/contact-tracing.xlsx" , copy replace verify
+  iecodebook export using "${box}/clean/contact-tracing.xlsx" , save replace verify
   export delimited using "${box}/clean/contact-tracing.csv" , replace
 
 // End of dofile
