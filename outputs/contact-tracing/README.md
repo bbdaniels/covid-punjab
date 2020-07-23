@@ -1,12 +1,15 @@
 # Contact Tracing
 
-## Figure 1. Distribution of Contacts (Ex. Zeros)
+## Figure. Network of Contacts (Ex. Zero Infectors)
+![](network-map.png)
+
+## Figure. Distribution of Contacts (Ex. Zeros)
 ![](hist-contacts.png)
 
-## Figure 2. Distribution of PCI vs Contacts (Ex. PCI Zeros)
+## Figure. Distribution of PCI vs Contacts (Ex. PCI Zeros)
 ![](pci-contacts.png)
 
-## Figure 2. Distribution of Infected vs Contacts (Ex. Zeros)
+## Figure. Distribution of Infected vs Contacts (Ex. Zeros)
 **Note:** Exact points randomly jittered to show density.
 ![](infected-contacts.png)
 
