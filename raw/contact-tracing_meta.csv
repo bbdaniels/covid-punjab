@@ -1,0 +1,34 @@
+﻿Label,Number of Obs,Set,Generation,Contacts,Infection
+N0+0,65,Nanded,0,positive,none
+N000,137,Nanded,0,0,0
+N0++,93,Nanded,0,positive,positive
+N0X++,5,Nanded cross-infection,0,positive,cross infecting non-Nanded
+N1+0,24,Nanded,1,positive,none
+N100,939,Nanded,1,0,0
+N1++,1,Nanded,1,positive,positive
+N1X++,1,Nanded cross-infection,1,positive,cross infecting non-Nanded
+N2+0,2,Nanded,2,positive,none
+N300,3,Nanded,3,0,0
+NN0+0,238,Non-Nanded,0,positive,none
+NN000,113,Non-Nanded,0,0,0
+NN0++,68,Non-Nanded,0,positive,positive
+NN1+0,54,Non-Nanded,1,positive,none
+NN100,224,Non-Nanded,1,0,0
+NN1++,36,Non-Nanded,1,positive,positive
+NN2+0,23,Non-Nanded,2,positive,none
+NN200,48,Non-Nanded,2,0,0
+NN2++,11,Non-Nanded,2,positive,positive
+NN3+0,14,Non-Nanded,3,positive,none
+NN300,21,Non-Nanded,3,0,0
+NN3++,4,Non-Nanded,3,positive,positive
+NN400,4,Non-Nanded,4,0,0
+NN4++,1,Non-Nanded,4,positive,positive
+NN5+0,1,Non-Nanded,5,positive,none
+NN500,5,Non-Nanded,5,0,0
+NX100,29,Nanded cross-infection,1,0,0
+NX1++,1,Nanded cross-infection,2,positive,positive
+NX2+0,1,Nanded cross-infection,2,positive,none
+NX200,2,Nanded cross-infection,2,0,0
+NX2++,1,Nanded cross-infection,2,positive,positive
+NX3+0,1,Nanded cross-infection,3,positive,none
+NX300,2,Nanded cross-infection,3,0,0
