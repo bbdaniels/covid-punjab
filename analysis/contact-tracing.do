@@ -22,7 +22,7 @@ use "${box}/data/contact-tracing.dta" ///
     (lowess pci contacts , lw(thick) lc(red)) ///
     if contacts > 0 ///
   , ylab(${pct}) ytit("Per-Contact Infection Rate") ///
-    xscale(log) xlab(1 5 25 125 625) xtit("Number of Contacts (Log Scale)") 
+    xscale(log) xlab(1 5 25 125 625) xtit("Number of Contacts (Log Scale)")
 
   graph export "${outputs}/pci-contacts.png" , replace
 
@@ -32,6 +32,7 @@ use "${box}/data/contact-tracing.dta" ///
 
   egen rank = rank(contacts)
   bys rank : gen j = _N
+  bys rank : keep in 1
   tw /// (histogram rank , yaxis(2) fc(gs14) lc(none) width(10) gap(10)) ///
     (scatter contacts rank [pweight = j] , mfc(gray%50) mlc(black)) ///
     (function (1.008^(x+80)) , range(0 400) color(red)) ///
