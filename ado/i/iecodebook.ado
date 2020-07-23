@@ -319,6 +319,14 @@ qui {
 
     // Get all value labels for export
     uselabel _all, clear
+      // Handle if no labels in dataset
+      if c(k) == 0 {
+        gen trunc = ""
+        gen lname = ""
+        gen value = ""
+        gen label = ""
+      }
+
       ren lname list_name
       drop trunc
       tostring value , replace
@@ -384,6 +392,7 @@ qui {
             di as err `"  it was `theOldLabel' and is now `theLabel'."'
           }
           local theOldChoices = choices[1]
+          if "`theOldChoices'" == "." local theOldChoices ""
           if "`theOldChoices'" != "`theChoices'" {
             local QUITFLAG = 1
             di as err "The value label of {bf:`theVariable'} has changed:"
