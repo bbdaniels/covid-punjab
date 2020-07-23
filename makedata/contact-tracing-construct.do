@@ -71,5 +71,6 @@
 
   // Save
   iecodebook export using "${box}/data/contact-tracing.xlsx" , save replace
+  export delimited using "${box}/data/contact-tracing.csv" , replace nolabel
 
 // End of dofile
