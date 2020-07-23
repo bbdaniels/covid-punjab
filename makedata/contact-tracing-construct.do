@@ -53,14 +53,21 @@
   preserve
     keep if id_contact != .
     gen infected = 1
-    collapse (sum) infected, by(id_contact)
+    gen infected_nohh = relation == ""
+    collapse (sum) infected infected_nohh, by(id_contact)
       lab var infected "Number Infected"
+      lab var infected_nohh "Number Infected, ex Relations"
     ren id_contact id_tracing
     tempfile infected
     save `infected'
   restore
   merge 1:1 id_tracing using `infected' , nogen
     replace infected = 0 if infected == .
+
+  // PCI metrics
+  gen pci = infected/contacts
+    lab var pci "Per Contact Infections"
+    replace pci = . if infected > contacts // Errors, presumably
 
   // Cleanup
   order * , seq
