@@ -114,7 +114,7 @@ use "${box}/data/contact-tracing.dta" ///
       order(3 "Average" 4 "Average ex. zero infectors")) ///
     xscale(log) xlab(1 5 25 125 625) xtit("Number of Contacts (Log Scale)")
 
-  graph export "${outputs}/pci-contacts.png" , replace
+  graph export "${outputs}/infected-contacts.png" , replace
 
 // Figure. Contacts distribution logrank
 use "${box}/data/contact-tracing.dta" ///
