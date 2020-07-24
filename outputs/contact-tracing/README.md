@@ -1,5 +1,8 @@
 # Contact Tracing
 
+## Figure. Contact Tracing vs. Total Testing
+![](tracing-total.png)
+
 ## Figure. Network of Contacts (Ex. Zero Infectors)
 ![](network-map.png)
 

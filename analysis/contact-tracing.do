@@ -2,6 +2,36 @@
 
 global outputs "${git}/outputs/contact-tracing"
 
+// Figure. Cases over time
+
+use "${box}/data/contact-tracing.dta"  , clear
+
+  merge m:1 id_icmr using "${box}/data/icmr.dta" , keepusing(date positive)
+  keep if positive == 1
+
+  gen tracing = _merge != 2
+  gen nanded = origin != "Local" & _merge != 2
+
+  keep date positive tracing nanded
+  collapse (sum) tracing nanded (count) n = positive, by(date)
+
+  tsset date
+
+  qui su date
+  drop if `r(max)' - date < 7
+
+  gen nc = sum(n)
+
+  tw ///
+    (bar n date , yaxis(2) barw(0.9) fc(gs14) lc(none)) ///
+    (bar tracing date , yaxis(2) barw(0.9) fc(red) lc(none)) ///
+    (bar nanded date , yaxis(2) barw(0.9) fc(black) lc(none)) ///
+  , legend(on c(1) ring(0) pos(11) ///
+    order(1 "All Positive" 2 "Contact Tracing" 3 "Nanded Cases")) ///
+    xtit("Date Sample Taken")
+
+    graph export "${outputs}/tracing-total.png" , replace
+
 // Figure. Contacts distribution
 use "${box}/data/contact-tracing.dta" ///
   if contacts > 0 & origin == "Local" , clear

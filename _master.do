@@ -7,7 +7,7 @@
 
 // Set ado-path
 
-  sysdir set PLUS "${directory}/ado/"
+  sysdir set PLUS "${git}/ado/"
 
 // Install packages
 
