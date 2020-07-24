@@ -42,12 +42,15 @@
   }
 
   // Calculcate numbers of contacts
+  ren *_hi *
+  /*
   egen contacts = rsum(contacts_hi contacts_lo)
     lab var contacts "Contacts"
   egen contacts_pos = rsum(contacts_hi_pos contacts_lo_pos)
     lab var contacts_pos "Contacts Positive"
   egen contacts_traced = rsum(contacts_hi_traced contacts_lo_traced)
     lab var contacts_traced "Contacts Traced"
+  */
 
   // Calculate number of infecteds
   preserve

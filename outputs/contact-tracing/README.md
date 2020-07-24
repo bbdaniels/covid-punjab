@@ -21,6 +21,6 @@
 
 ## Appendix Figure 2. Log-Rank Plot of Contacts
 
-**Note:** Linear fit equation y = (1.008^(x+80)).
+**Note:** Linear fit equation y = (1.0065^(x+100)).
 Size of bubble indicates relative number of observations.
 ![](logrank.png)
