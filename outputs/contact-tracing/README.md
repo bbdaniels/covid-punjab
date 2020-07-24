@@ -3,8 +3,11 @@
 ## Figure. Contact Tracing vs. Total Testing
 ![](tracing-total.png)
 
-## Figure. Network of Contacts (Ex. Zero Infectors)
+## Figure. Local Transmission Map
 ![](network-map.png)
+
+## Figure. Network of Contacts (Ex. Zero Infectors)
+![](transmission-map.png)
 
 ## Figure. Distribution of Contacts (Ex. Zeros)
 ![](hist-contacts.png)

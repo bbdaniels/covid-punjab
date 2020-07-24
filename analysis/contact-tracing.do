@@ -3,6 +3,49 @@
 global outputs "${git}/outputs/contact-tracing"
 
 // Figure. Cases over time
+use "${box}/data/contact-tracing.dta" ///
+  if origin == "Local" , clear
+
+  keep id_contact contacts date
+  keep if id_contact != .
+    ren (contacts date) (contacts2 date2)
+    ren id_contact id_tracing
+
+    tempfile contacts
+    save `contacts'
+
+use "${box}/data/contact-tracing.dta" ///
+  if origin == "Local" , clear
+
+  merge 1:m id_tracing using `contacts' , nogen
+  replace contacts2 = contacts2 + 1
+  replace contacts = contacts + 1
+
+  tw ///
+  (lowess contacts date , lc(red) lw(thick))  ///
+  (pcarrow contacts date contacts2 date2 if contacts > 0 ///
+    , lw(thin) lc(gs14) mc(none) mlw(thin)) ///
+  (pcarrow contacts date contacts2 date2 if contacts > 0 ///
+    & contacts2 > contacts ///
+    , lw(thin) lc(red) mc(none) mlw(thin)) ///
+  (scatter contacts date if generation != 0 & contacts > 1 ///
+    , mlw(vthin) mlc(none)  mc(gs3))  ///
+  (scatter contacts date if generation != 0 & contacts == 1 ///
+    , mlw(vthin) mlc(none)  mc(gs3) jitter(10))  ///
+  (scatter contacts date if generation == 0 & contacts > 0 ///
+    , mlw(vthin) mlc(black) mc(red))  ///
+   ///
+  , yscale(log) ylab(1 5 25 125 625)  ///
+    xtit("Date Sample Taken") ytit("Number of Contacts (Log Scale)") ///
+    legend(on size(small) pos(11) r(3) order(1 "Average Contacts" ///
+      0 "" 6 "Original Case" 2 "Transmission" ///
+      5 "Contact Case" 3 "Transmission to More Central Contact"))
+
+    graph export "${outputs}/transmission-map.png" , replace
+
+  -
+
+// Figure. Cases over time
 
 use "${box}/data/contact-tracing.dta"  , clear
 
