@@ -43,8 +43,6 @@ use "${box}/data/contact-tracing.dta" ///
 
     graph export "${outputs}/transmission-map.png" , replace
 
-  -
-
 // Figure. Cases over time
 
 use "${box}/data/contact-tracing.dta"  , clear
@@ -92,8 +90,8 @@ use "${box}/data/contact-tracing.dta" ///
 
   tw ///
     (histogram pci , hor xaxis(2) fc(gs14) w(.1) lc(none) gap(10)) ///
-    (scatter pci contacts , mc(black)) ///
     (lowess pci contacts , lw(thick) lc(red)) ///
+    (scatter pci contacts , mc(black) jitter(10)) ///
     if contacts > 0 ///
   , ${xhist_opts} ylab(${pct}) ytit("Per-Contact Infection Rate") ///
     xscale(log) xlab(1 5 25 125 625) xtit("Number of Contacts (Log Scale)")
