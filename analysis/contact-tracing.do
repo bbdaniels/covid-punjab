@@ -38,7 +38,7 @@ use "${box}/data/contact-tracing.dta" ///
   , yscale(log) ylab(1 5 25 125 625)  ///
     xtit("Date Sample Taken") ytit("Number of Contacts (Log Scale)") ///
     legend(on size(small) pos(11) r(3) order(1 "Average Contacts" ///
-      0 "" 6 "Original Case" 2 "Transmission" ///
+      0 "" 6 "Seed Case" 2 "Transmission" ///
       5 "Contact Case" 3 "Transmission to More Central Contact"))
 
     graph export "${outputs}/transmission-map.png" , replace
