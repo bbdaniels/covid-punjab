@@ -15,7 +15,33 @@ use "${box}/data/contact-tracing.dta" ///
   , c(freq sum contacts sum infected) ///
     replace
 
+// Figure. Infection CDF.
+use "${box}/data/contact-tracing.dta" ///
+  if origin == "Local" , clear
 
+  sort infected
+
+  gen inf_running = sum(infected)
+  egen inf_total = sum(infected)
+  gen cdf = inf_running / inf_total
+  gen inf = infected > 0
+  gen tot = _n/_N
+  bys inf : gen tot2 = _n/_N
+
+  replace tot = 1-tot
+  replace tot2 = 1-tot2
+  replace cdf = 1 - cdf
+
+  tw ///
+    (function x , lp(dash) lc(gs14)) ///
+    (line cdf tot , lc(black) lw(thick)) ///
+    (line cdf tot2 if inf == 1 , lc(red) lw(thick)) ///
+  , ylab(${pct}) xlab(${pct} .05 "5%" .143 "14%" .37 "37%") xtit("Share of Cases/Infectors") ytit("Share of New Infections") ///
+    xline(0.05 .143 .370, lc(gs14)) yline(.25 .50 .75 , lc(gs14)) ///
+    legend(on pos(4) ring(0) c(1) order(2 "All Cases" 3 "Infectors"))
+
+    graph export "${outputs}/transmission-cdf.png" , replace
+-
 // Figure. Cases over time
 use "${box}/data/contact-tracing.dta" ///
   if origin == "Local" , clear

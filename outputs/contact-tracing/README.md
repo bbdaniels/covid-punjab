@@ -15,6 +15,9 @@
 ## Figure. Distribution of PCI vs Contacts (Ex. PCI Zeros)
 ![](pci-contacts.png)
 
+## Figure. Cumulative Distribution of Infections
+![](transmission-map.png)
+
 ## Figure. Distribution of Infected vs Contacts (Ex. Zeros)
 **Note:** Exact points randomly jittered to show density.
 ![](infected-contacts.png)
