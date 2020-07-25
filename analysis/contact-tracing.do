@@ -20,6 +20,11 @@ use "${box}/data/contact-tracing.dta" ///
 use "${box}/data/contact-tracing.dta" ///
   if origin == "Local" , clear
 
+  set seed 123456
+  replace date = date + rnormal()
+  replace contacts = contacts + abs(rnormal()/9)
+
+
   keep id_contact contacts date
   keep if id_contact != .
     ren (contacts date) (contacts2 date2)
@@ -30,6 +35,10 @@ use "${box}/data/contact-tracing.dta" ///
 
 use "${box}/data/contact-tracing.dta" ///
   if origin == "Local" , clear
+
+  set seed 123456
+  replace date = date + rnormal()
+  replace contacts = contacts + abs(rnormal()/9)
 
   merge 1:m id_tracing using `contacts' , nogen
   replace contacts2 = contacts2 + 1
@@ -45,7 +54,7 @@ use "${box}/data/contact-tracing.dta" ///
   (scatter contacts date if generation != 0 & contacts > 1 ///
     , mlw(vthin) mlc(none)  mc(gs3))  ///
   (scatter contacts date if generation != 0 & contacts == 1 ///
-    , mlw(vthin) mlc(none)  mc(gs3) jitter(10))  ///
+    , mlw(vthin) mlc(none)  mc(gs3))  ///
   (scatter contacts date if generation == 0 & contacts > 0 ///
     , mlw(vthin) mlc(black) mc(red))  ///
    ///
