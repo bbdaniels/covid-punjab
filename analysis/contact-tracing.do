@@ -2,6 +2,20 @@
 
 global outputs "${git}/outputs/contact-tracing"
 
+// Table. Transmission.
+use "${box}/data/contact-tracing.dta" ///
+  if origin == "Local" , clear
+
+  gen inf = infected > 0
+  gen con = contacts > 0
+  replace con = 1 if inf > 0
+  egen check = group(inf con) , label
+
+  table generation check ///
+  , c(freq sum contacts sum infected) ///
+    replace
+
+
 // Figure. Cases over time
 use "${box}/data/contact-tracing.dta" ///
   if origin == "Local" , clear
