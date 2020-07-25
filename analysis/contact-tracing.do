@@ -154,13 +154,13 @@ use "${box}/data/contact-tracing.dta" ///
   tw ///
     (histogram infected , hor xaxis(2) fc(gs14) w(1) lc(none) gap(10)) ///
     (scatter infected contacts , msize(*2) mlc(none) mfc(black%50) jitter(5) ) ///
-    (lowess infected contacts , lw(thick) lc(maroon)) ///
+    (lowess infected contacts , lw(thick) lc(black)) ///
     (lowess infected contacts if infected > 0 , lw(thick) lc(red)) ///
     if contacts > 0 & infected < 30 ///
   , ${xhist_opts} ytit("Total Infected") ///
     yline(1 2 3 4 5 6 7 8 9 10 , lc(gs14)) ///
     legend(on pos(11) ring(0) c(1) ///
-      order(3 "Average" 4 "Average ex. zero infectors")) ///
+      order(3 "All Cases" 4 "Infectors")) ///
     xscale(log) xlab(1 5 25 125 625) xtit("Number of Contacts (Log Scale)")
 
   graph export "${outputs}/infected-contacts.png" , replace
