@@ -16,7 +16,7 @@
 ![](pci-contacts.png)
 
 ## Figure. Cumulative Distribution of Infections
-![](transmission-map.png)
+![](transmission-cdf.png)
 
 ## Figure. Distribution of Infected vs Contacts (Ex. Zeros)
 **Note:** Exact points randomly jittered to show density.
