@@ -6,7 +6,7 @@
 ## Figure. Local Transmission Map
 ![](network-map.png)
 
-## Figure. Network of Contacts (Ex. Zero Infectors)
+## Figure. Network of Contacts
 ![](transmission-map.png)
 
 ## Figure. Distribution of Contacts (Ex. Zeros)
