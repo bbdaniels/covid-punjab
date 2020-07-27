@@ -4,7 +4,6 @@ global outputs "${git}/outputs/contact-tracing"
 
 // Transmission Flowchart
 
-  // Table. Local Transmission.
   foreach type in Local Nanded Cross {
     use "${box}/data/contact-tracing.dta" ///
       if origin == "`type'" , clear
