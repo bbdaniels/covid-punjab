@@ -2,14 +2,28 @@
 
 global outputs "${git}/outputs/contact-tracing"
 
-// Table. Transmission.
+// Table. Local Transmission.
 use "${box}/data/contact-tracing.dta" ///
   if origin == "Local" , clear
 
   gen inf = infected > 0
   gen con = contacts > 0
   replace con = 1 if inf > 0
-  egen check = group(inf con) , label
+  egen check = group(con inf) , label
+
+  table generation check ///
+  , c(freq sum contacts sum infected) ///
+    replace
+
+
+// Table. Nanded Transmission.
+use "${box}/data/contact-tracing.dta" ///
+  if origin != "Local" , clear
+
+  gen inf = infected > 0
+  gen con = contacts > 0
+  replace con = 1 if inf > 0
+  egen check = group(con inf) , label
 
   table generation check ///
   , c(freq sum contacts sum infected) ///
@@ -19,6 +33,13 @@ use "${box}/data/contact-tracing.dta" ///
 use "${box}/data/contact-tracing.dta" ///
   if origin == "Local" , clear
 
+  // Get K power-law contacts exponent
+  gsort - contacts
+    gen n = _n if contacts > 0
+    tsset n
+      gen k = 1/(contacts/L.contacts)
+
+  // Create CDF
   sort infected
 
   gen inf_running = sum(infected)
@@ -40,7 +61,7 @@ use "${box}/data/contact-tracing.dta" ///
     xline(0.05 .143 .370, lc(gs14)) yline(.25 .50 .75 , lc(gs14)) ///
     legend(on pos(4) ring(0) c(1) order(2 "All Cases" 3 "Infectors"))
 
-    graph export "${outputs}/transmission-cdf.png" , replace
+    graph export "${outputs}/transmission-cdf.eps" , replace
 
 // Figure. Cases over time
 use "${box}/data/contact-tracing.dta" ///
@@ -90,7 +111,7 @@ use "${box}/data/contact-tracing.dta" ///
       0 "" 6 "Seed Case" 2 "Transmission" ///
       5 "Contact Case" 3 "Transmission to More Central Contact"))
 
-    graph export "${outputs}/transmission-map.png" , replace
+    graph export "${outputs}/transmission-map.eps" , replace
 
 // Figure. Cases over time
 
@@ -120,7 +141,7 @@ use "${box}/data/contact-tracing.dta"  , clear
     order(1 "All Positive" 2 "Contact Tracing" 3 "Nanded Cases")) ///
     xtit("Date Sample Taken")
 
-    graph export "${outputs}/tracing-total.png" , replace
+    graph export "${outputs}/tracing-total.eps" , replace
 
 // Figure. Contacts distribution
 use "${box}/data/contact-tracing.dta" ///
@@ -130,7 +151,7 @@ use "${box}/data/contact-tracing.dta" ///
     ylab(0 "0% ".1 "10%" .2 "20%" .3 "30%" .4 "40%" .5 "50%") ///
     xtit("Number of Contacts") ytit("Share of Population")
 
-  graph export "${outputs}/hist-contacts.png" , replace
+  graph export "${outputs}/hist-contacts.eps" , replace
 
 
 // Figure. PCI distribution nonzeros
@@ -145,7 +166,7 @@ use "${box}/data/contact-tracing.dta" ///
   , ${xhist_opts} ylab(${pct}) ytit("Per-Contact Infection Rate") ///
     xscale(log) xlab(1 5 25 125 625) xtit("Number of Contacts (Log Scale)")
 
-  graph export "${outputs}/pci-contacts.png" , replace
+  graph export "${outputs}/pci-contacts.eps" , replace
 
 // Figure. Infections distribution nonzeros
 use "${box}/data/contact-tracing.dta" ///
@@ -163,7 +184,7 @@ use "${box}/data/contact-tracing.dta" ///
       order(3 "All Cases" 4 "Infectors")) ///
     xscale(log) xlab(1 5 25 125 625) xtit("Number of Contacts (Log Scale)")
 
-  graph export "${outputs}/infected-contacts.png" , replace
+  graph export "${outputs}/infected-contacts.eps" , replace
 
 // Figure. Contacts distribution logrank
 use "${box}/data/contact-tracing.dta" ///
@@ -178,6 +199,6 @@ use "${box}/data/contact-tracing.dta" ///
   ,  yscale(log axis(1))  ylab(1 5 25 125 625) /// ${hist_opts}
     xtit("Contact Rank of Traced Non-Nanded Cases") ytit("Number of Contacts (Log Scale)")
 
-    graph export "${outputs}/logrank.png" , replace
+    graph export "${outputs}/logrank.eps" , replace
 
 // End of dofile
