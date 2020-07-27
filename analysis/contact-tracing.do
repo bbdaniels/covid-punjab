@@ -2,32 +2,24 @@
 
 global outputs "${git}/outputs/contact-tracing"
 
-// Table. Local Transmission.
-use "${box}/data/contact-tracing.dta" ///
-  if origin == "Local" , clear
+// Transmission Flowchart
 
-  gen inf = infected > 0
-  gen con = contacts > 0
-  replace con = 1 if inf > 0
-  egen check = group(con inf) , label
+  // Table. Local Transmission.
+  foreach type in Local Nanded Cross {
+    use "${box}/data/contact-tracing.dta" ///
+      if origin == "`type'" , clear
 
-  table generation check ///
-  , c(freq sum contacts sum infected) ///
-    replace
+    gen inf = infected > 0
+    gen con = contacts > 0
+    replace con = 1 if inf > 0
+    egen check = group(con inf) , label
 
+    table generation check ///
+    , c(freq sum contacts sum infected) ///
+      replace
 
-// Table. Nanded Transmission.
-use "${box}/data/contact-tracing.dta" ///
-  if origin != "Local" , clear
-
-  gen inf = infected > 0
-  gen con = contacts > 0
-  replace con = 1 if inf > 0
-  egen check = group(con inf) , label
-
-  table generation check ///
-  , c(freq sum contacts sum infected) ///
-    replace
+    export excel "${box}/outputs/`type'-generation-flow.xlsx" , replace
+  }
 
 // Figure. Infection CDF.
 use "${box}/data/contact-tracing.dta" ///
