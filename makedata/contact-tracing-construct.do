@@ -57,9 +57,11 @@
     keep if id_contact != .
     gen infected = 1
     gen infected_nohh = relation == ""
-    collapse (sum) infected infected_nohh, by(id_contact)
+    gen infected_spouse = relation == "Spouse"
+    collapse (sum) infected infected_nohh (max) infected_spouse, by(id_contact)
       lab var infected "Number Infected"
       lab var infected_nohh "Number Infected, ex Relations"
+      lab var infected_spouse "Infected Spouse"
     ren id_contact id_tracing
     tempfile infected
     save `infected'
@@ -80,7 +82,7 @@
   compress
 
   // Save
-  iecodebook export using "${box}/data/contact-tracing.xlsx" , save replace
+  iecodebook export using "${box}/data/contact-tracing.xlsx" , copy replace
   export delimited using "${box}/data/contact-tracing.csv" , replace nolabel
 
 // End of dofile
